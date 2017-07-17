@@ -51,6 +51,7 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
         <table tableName="contact"></table>
+        <table tableName="cml_nation"></table>
         <!--<table tableName="lemon_group"></table>
         <table tableName="lemon_group_user"></table>
         <table tableName="lemon_seat_info"></table>
