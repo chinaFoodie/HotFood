@@ -10,10 +10,28 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-17 14:46:03
+Date: 2017-07-17 16:08:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cml_nation`
+-- ----------------------------
+DROP TABLE IF EXISTS `cml_nation`;
+CREATE TABLE `cml_nation` (
+  `nation_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nation_name` varchar(50) NOT NULL COMMENT '国家名称',
+  `nation_desc` varchar(250) DEFAULT '' COMMENT '国家图片',
+  `nation_pic` varchar(250) DEFAULT NULL COMMENT '国家图片',
+  PRIMARY KEY (`nation_id`),
+  UNIQUE KEY `nationName` (`nation_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cml_nation
+-- ----------------------------
+INSERT INTO `cml_nation` VALUES ('1', '13233', '684654', '151');
 
 -- ----------------------------
 -- Table structure for `contact`
