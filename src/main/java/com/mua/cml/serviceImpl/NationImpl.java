@@ -33,8 +33,14 @@ public class NationImpl implements NationService {
             cmlNation.setNationDesc(nationDesc);
             cmlNation.setNationName(nationName);
             cmlNation.setNationPic(nationPic);
-            return cmlNationMapper.updateByExample(cmlNation, cmlNationExample);
+            cmlNation.setNationId(nations.get(0).getNationId());
+            return cmlNationMapper.updateByPrimaryKey(cmlNation);
+        } else {
+            CmlNation cmlNation = new CmlNation();
+            cmlNation.setNationDesc(nationDesc);
+            cmlNation.setNationName(nationName);
+            cmlNation.setNationPic(nationPic);
+            return cmlNationMapper.insert(cmlNation);
         }
-        return 0;
     }
 }
