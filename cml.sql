@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-17 13:59:22
+Date: 2017-07-17 14:46:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,10 +26,14 @@ CREATE TABLE `contact` (
   `number` varchar(20) NOT NULL DEFAULT '' COMMENT '联系人手机号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人姓名',
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `NAME` (`name`),
+  UNIQUE KEY `number` (`number`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of contact
 -- ----------------------------
 INSERT INTO `contact` VALUES ('1', '13122@gmail.com', '0', '18607149219', 'mua', '1');
+INSERT INTO `contact` VALUES ('0', 'ly999@gmail.com', '0', '13766894597', 'Dada', '2');
