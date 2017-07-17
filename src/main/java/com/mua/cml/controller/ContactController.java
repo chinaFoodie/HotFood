@@ -1,7 +1,10 @@
 package com.mua.cml.controller;
 
+import com.alibaba.fastjson.util.TypeUtils;
+import com.mua.cml.common.ApiResponse;
 import com.mua.cml.model.Contact;
 import com.mua.cml.model.ContactExample;
+import com.mua.cml.model.customized.Page;
 import com.mua.cml.service.ContactService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +27,25 @@ public class ContactController {
 
     @ResponseBody
     @RequestMapping(value = "/contacts")
-    public List<Contact> getContacts (HttpServletRequest request, RedirectAttributes attributes) throws Exception {
+    public ApiResponse getContacts(HttpServletRequest request, RedirectAttributes attributes) {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
+        Integer start = TypeUtils.castToInt(request.getParameter("start"));
+        Integer length = TypeUtils.castToInt(request.getParameter("length"));
+        Integer draw = TypeUtils.castToInt(request.getParameter("draw"));
 
         ContactExample contactExample = new ContactExample();
 //        ContactExample.Criteria criteria = ContactExample.createCriteria();
-        List<Contact> users = contactService.getContacts(contactExample);
-        return users;
+        List<Contact> users = null;
+        try {
+            Page page = new Page();
+            page.setOffset(start);
+            page.setPageSize(length);
+            users = contactService.getContacts(contactExample);
+            return ApiResponse.dtInstance(users, draw, page.getTotalCount(), page.getTotalCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.errInstance();
+        }
     }
 }
