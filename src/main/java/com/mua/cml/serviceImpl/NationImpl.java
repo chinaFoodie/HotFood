@@ -29,11 +29,10 @@ public class NationImpl implements NationService {
         cmlNationExample.createCriteria().andNationNameEqualTo(nationName);
         List<CmlNation> nations = cmlNationMapper.selectByExample(cmlNationExample);
         if (nations.size() > 0) {
-            CmlNation cmlNation = new CmlNation();
+            CmlNation cmlNation = nations.get(0);
             cmlNation.setNationDesc(nationDesc);
             cmlNation.setNationName(nationName);
             cmlNation.setNationPic(nationPic);
-            cmlNation.setNationId(nations.get(0).getNationId());
             return cmlNationMapper.updateByPrimaryKey(cmlNation);
         } else {
             CmlNation cmlNation = new CmlNation();

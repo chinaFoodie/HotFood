@@ -2,12 +2,19 @@ package com.mua.cml.controller;
 
 import com.mua.cml.common.ApiResponse;
 import com.mua.cml.service.NationService;
+import com.mua.cml.util.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Date;
 
 /**
  * Created by King on 2017/7/17.
@@ -15,6 +22,7 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/cml")
 public class NationController {
+    private static String UPD_IMG_DIRECTORY = "nation/updImg/";
 
     @Resource
     NationService nationService;
@@ -27,4 +35,21 @@ public class NationController {
         return ApiResponse.sucInstance(rows);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/nationImgUpload", method = RequestMethod.POST)
+    public ApiResponse upLoadNationPic(MultipartFile file, HttpServletRequest request) {
+        try {
+            if (file == null) {
+                return ApiResponse.errInstance();
+            }
+            String fileName = file.getOriginalFilename();
+            String realPath = request.getSession().getServletContext().getRealPath("/");
+            String trueFileName = DateUtil.format(new Date(), DateUtil.FORMAT_YYYYMMDDHHMMSS_CLOSELY) + fileName;
+            String fileStorePath = realPath + UPD_IMG_DIRECTORY + trueFileName;
+            file.transferTo(new File(fileStorePath));
+            return ApiResponse.sucInstance(UPD_IMG_DIRECTORY + trueFileName);
+        } catch (Exception e) {
+            return ApiResponse.errInstance();
+        }
+    }
 }
