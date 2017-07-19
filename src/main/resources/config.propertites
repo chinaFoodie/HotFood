@@ -12,3 +12,5 @@ maxIdle=20
 minIdle=1
 #定义最长等待时间
 maxWait=60000
+urlRoot=http://localhost:8080/image
+localRoot=D:\\apache-tomcat-8.5.11-windows-x64\\apache-tomcat-8.5.11\\webapps\\image

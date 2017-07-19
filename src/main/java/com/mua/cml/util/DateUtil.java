@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by hanhaiwen on 04/03/2016.
@@ -270,6 +271,26 @@ public class DateUtil {
      */
     public static Date extendDate(Date date, int num, int calendarType){
         return addTime(date, num, calendarType);
+    }
+
+    /**
+     * 获取当前日期字符串
+     * @param separator
+     * @return
+     */
+    public static String getNowDateStr(String separator){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH)+1;
+        int day = now.get(Calendar.DATE);
+
+        return year + separator + month + separator + day;
+    }
+
+    //生成唯一的文件名
+    public static String getUniqueFileName(){
+        String str = UUID.randomUUID().toString();
+        return str.replace("-", "");
     }
 
 }

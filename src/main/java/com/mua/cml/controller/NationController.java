@@ -1,5 +1,6 @@
 package com.mua.cml.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mua.cml.common.ApiResponse;
 import com.mua.cml.service.NationService;
 import com.mua.cml.util.DateUtil;
@@ -13,7 +14,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -22,7 +25,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/cml")
 public class NationController {
-    private static String UPD_IMG_DIRECTORY = "nation/updImg/";
+    private static String UPD_IMG_DIRECTORY = "/updImg/";
 
     @Resource
     NationService nationService;
@@ -37,7 +40,10 @@ public class NationController {
 
     @ResponseBody
     @RequestMapping(value = "/nationImgUpload", method = RequestMethod.POST)
-    public ApiResponse upLoadNationPic(MultipartFile file, HttpServletRequest request) {
+    public ApiResponse upLoadNationPic(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
+        //解决跨域名访问问题
+        response.setHeader("Access-Control-Allow-Origin", "*");
         try {
             if (file == null) {
                 return ApiResponse.errInstance();
@@ -49,6 +55,20 @@ public class NationController {
             file.transferTo(new File(fileStorePath));
             return ApiResponse.sucInstance(UPD_IMG_DIRECTORY + trueFileName);
         } catch (Exception e) {
+            return ApiResponse.errInstance();
+        }
+    }
+
+
+    @RequestMapping(value = "/uploadImg", headers = "content-type=multipart/*", method = RequestMethod.POST)
+    @ResponseBody
+    public ApiResponse uploadImg(MultipartFile img, HttpServletRequest request) {
+        String picUrl = "";
+        try {
+            picUrl = nationService.upload(img, request, picUrl);
+            return ApiResponse.sucInstance(picUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ApiResponse.errInstance();
         }
     }
