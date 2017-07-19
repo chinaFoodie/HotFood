@@ -56,6 +56,9 @@ public class NationImpl implements NationService {
     @Override
     public String upload(MultipartFile file, HttpServletRequest request, String picUrl) throws IOException {
         //过滤合法的文件类型
+        if (file == null) {
+            return "上传文件未获取到";
+        }
         String fileName = file.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         String allowSuffixs = "gif,jpg,jpeg,bmp,png,ico";
@@ -83,6 +86,7 @@ public class NationImpl implements NationService {
         //将输入流中的数据复制到新文件
         FileUtils.copyInputStreamToFile(file.getInputStream(), f);
 
+        //这里可以创建一张图数据库表
         Picture pic = new Picture();
         pic.setLocalPath(f.getAbsolutePath());
         pic.setName(f.getName());
