@@ -1,6 +1,5 @@
 package com.mua.cml.serviceImpl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.mua.cml.mapper.CmlNationMapper;
 import com.mua.cml.model.CmlNation;
 import com.mua.cml.model.CmlNationExample;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -67,7 +65,7 @@ public class NationImpl implements NationService {
 
         Properties config = new Properties();
         config.load(this.getClass().getClassLoader().getResourceAsStream("config.propertites"));
-        String urlPath = config.getProperty("urlRoot");//urlRoot IpUtil.getInsideIp()
+        String urlPath = "http://" + IpUtil.getInsideIp() + ":8080/image";//image config.getProperty("urlRoot")
 
         String localPath = request.getSession().getServletContext().getRealPath("/");
         if (localPath.indexOf("\\ROOT") > 0) {
