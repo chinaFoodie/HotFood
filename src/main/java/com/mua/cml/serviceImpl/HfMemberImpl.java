@@ -20,7 +20,7 @@ public class HfMemberImpl implements HFMemberService {
     HfMemberMapper hfMemberMapper;
 
     @Override
-    public int register(String phone, String password, String nick) {
+    public long register(String phone, String password, String nick) {
         HfMember hfMember = new HfMember();
         hfMember.setMemberId(getId());
         hfMember.setMemberPhone(phone);
@@ -31,8 +31,14 @@ public class HfMemberImpl implements HFMemberService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int rows = hfMemberMapper.insert(hfMember);
-        return rows;
+        hfMemberMapper.insert(hfMember);
+        return hfMember.getMemberId();
+    }
+
+    @Override
+    public HfMember selectById(long id) throws Exception {
+        HfMember hfMember = hfMemberMapper.selectByPrimaryKey(id);
+        return hfMember;
     }
 
     private long getId() {

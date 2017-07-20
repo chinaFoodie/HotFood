@@ -1,5 +1,6 @@
 package com.mua.cml.service;
 
+import com.mua.cml.model.HfMember;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,5 +8,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface HFMemberService {
-    int register(String phone, String password, String nick) throws Exception;
+    long register(String phone, String password, String nick) throws Exception;
+
+    HfMember selectById(long id) throws Exception;
 }

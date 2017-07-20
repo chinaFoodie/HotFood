@@ -24,8 +24,8 @@ public class HFMemberController {
     @RequestMapping(value = "/register")
     public ApiResponse registerHfMember(@RequestParam String nick, @RequestParam String phone, @RequestParam String password) {
         try {
-            hfMemberService.register(phone, password, nick);
-            return ApiResponse.sucInstance();
+            long memberId = hfMemberService.register(phone, password, nick);
+            return ApiResponse.sucInstance(hfMemberService.selectById(memberId));
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.errInstance();
