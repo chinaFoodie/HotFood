@@ -22,7 +22,7 @@ public class HfMemberImpl implements HFMemberService {
     @Override
     public long register(String phone, String password, String nick) {
         HfMember hfMember = new HfMember();
-        hfMember.setMemberId(getId());
+        hfMember.setMemberId(getId(0));
         hfMember.setMemberPhone(phone);
         hfMember.setMemberPassword(password);
         hfMember.setMemberNick(nick);
@@ -41,9 +41,14 @@ public class HfMemberImpl implements HFMemberService {
         return hfMember;
     }
 
-    private long getId() {
+    /**
+     * 生成id
+     *
+     * @param times
+     * @return
+     */
+    private long getId(int times) {
         long id;
-        int times = 0;
         times++;
         id = MemberIdUtil.createMemberId() + 100000;
         if (times >= 5) {
@@ -52,7 +57,7 @@ public class HfMemberImpl implements HFMemberService {
         }
         HfMember hfMember = hfMemberMapper.selectByPrimaryKey(id);
         if (hfMember != null) {
-            getId();
+            getId(times);
         }
         return id;
     }
